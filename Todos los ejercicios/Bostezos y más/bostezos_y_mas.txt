@@ -1,0 +1,28 @@
+REGISTRAR bostezo marta
+REGISTRAR bostezo luis
+REGISTRAR bostezo marta
+REGISTRAR bostezo marta
+REGISTRAR tirar_tiza luis
+LISTA_NEGRA 2
+LISTA_NEGRA 3
+REGISTRAR tirar_tiza luis
+REGISTRAR bostezo marta
+REGISTRAR bostezo luis
+REGISTRAR bostezo luis
+LISTA_NEGRA_FALTA bostezo 3
+REGISTRAR tirar_tiza marta
+CANTIDAD_FALTA bostezo marta
+CANTIDAD marta
+BORRAR_FALTA bostezo luis
+REGISTRAR tirar_tiza pedro
+CANTIDAD_FALTA bostezo luis
+CANTIDAD_FALTA tirar_tiza luis
+CANTIDAD luis
+BORRAR luis
+CANTIDAD_FALTA bostezo luis
+CANTIDAD luis
+CANTIDAD_FALTA tirar_tiza marta
+CANTIDAD marta
+REGISTRAR tirar_tiza alberto
+LISTA_NEGRA_FALTA tirar_tiza 1
+FIN

@@ -1,0 +1,20 @@
+addSong Canticos_Griegos Anonimo 300
+addSong  No_Para_Ti Mama_Ladilla 270
+addSong Nocturne_2_Op_9 Chopin 5
+addSong El_Vaquilla Los_Chichos 425
+addToPlaylist Canticos_Griegos
+addToPlaylist Nocturne_2_Op_9
+addToPlaylist El_Vaquilla
+addToPlaylist No_Para_Ti
+addToPlaylist El_Vaquilla
+totalTime
+deleteSong Canticos_Griegos
+totalTime
+play
+play
+play 
+recent 4
+addToPlaylist Nocturne_2_Op_9
+addToPlaylist El_Vaquilla 
+current
+FIN

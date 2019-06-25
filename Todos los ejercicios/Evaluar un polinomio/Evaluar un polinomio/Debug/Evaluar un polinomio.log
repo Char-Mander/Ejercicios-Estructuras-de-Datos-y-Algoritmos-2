@@ -1,0 +1,5 @@
+﻿  Source.cpp
+\\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\evaluar un polinomio\evaluar un polinomio\header.h(25): warning C4018: '<': signed/unsigned mismatch
+\\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\evaluar un polinomio\evaluar un polinomio\header.h(26): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+  Evaluar un polinomio.vcxproj -> \\psf\Home\Desktop\Trabajos y más\Universidad\2º E\EDA 2º cuatri - 2º E\Evaluar un polinomio\Debug\Evaluar un polinomio.exe
+  Evaluar un polinomio.vcxproj -> \\psf\Home\Desktop\Trabajos y más\Universidad\2º E\EDA 2º cuatri - 2º E\Evaluar un polinomio\Debug\Evaluar un polinomio.pdb (Partial PDB)

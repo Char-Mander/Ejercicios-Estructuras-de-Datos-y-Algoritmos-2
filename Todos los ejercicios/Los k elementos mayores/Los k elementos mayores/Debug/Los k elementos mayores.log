@@ -1,0 +1,19 @@
+﻿  Source.cpp
+\\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\los k elementos mayores\los k elementos mayores\header.h(34): warning C4018: '<': signed/unsigned mismatch
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\los k elementos mayores\los k elementos mayores\header.h(22): note: while compiling class template member function 'void conjunto<int>::kMayores(long)'
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\los k elementos mayores\los k elementos mayores\source.cpp(51): note: see reference to function template instantiation 'void conjunto<int>::kMayores(long)' being compiled
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\los k elementos mayores\los k elementos mayores\source.cpp(40): note: see reference to class template instantiation 'conjunto<int>' being compiled
+\\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\los k elementos mayores\los k elementos mayores\header.h(49): warning C4018: '<': signed/unsigned mismatch
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\los k elementos mayores\los k elementos mayores\header.h(47): note: while compiling class template member function 'bool conjunto<int>::contains(T) const'
+          with
+          [
+              T=int
+          ]
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\los k elementos mayores\los k elementos mayores\header.h(42): note: see reference to function template instantiation 'bool conjunto<int>::contains(T) const' being compiled
+          with
+          [
+              T=int
+          ]
+\\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\los k elementos mayores\los k elementos mayores\header.h(51): warning C4018: '<': signed/unsigned mismatch
+  Los k elementos mayores.vcxproj -> \\psf\Home\Desktop\Trabajos y más\Universidad\2º E\EDA 2º cuatri - 2º E\Los k elementos mayores\Debug\Los k elementos mayores.exe
+  Los k elementos mayores.vcxproj -> \\psf\Home\Desktop\Trabajos y más\Universidad\2º E\EDA 2º cuatri - 2º E\Los k elementos mayores\Debug\Los k elementos mayores.pdb (Partial PDB)

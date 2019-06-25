@@ -1,0 +1,16 @@
+3
+17:40:20 02:20:10 El hombre tranquilo
+15:30:00 01:35:40 12 hombres sin piedad
+20:40:10 01:55:10 Horizontes lejanos
+3
+15:10:00 01:20:00 Gremlins
+13:10:00 03:20:00 Ben-Hur
+12:00:50 00:59:10 La soga
+1
+14:00:01 01:30:00 La colmena
+4
+14:10:00 05:00:00 Ingeniería del software
+21:00:00 02:00:00 Cara al sol
+15:01:02 00:30:00 Corto 
+12:00:00 02:15:00 Tanques y putas
+0

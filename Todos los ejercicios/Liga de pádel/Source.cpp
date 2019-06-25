@@ -1,0 +1,427 @@
+//Grupo E29, Laura Jiménez Fernández y E63, Pablo de Torre Barrio
+//
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <vector>
+#include <assert.h>
+#include <stdio.h>
+#include <algorithm>
+
+/* Describir lo que hace la función */
+#include <algorithm>
+#include <functional>  // std::hash, std::equal_to
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
+
+template <class Clave, class Valor, class Hash = std::hash<Clave>, class Pred = std::equal_to<Clave>>
+class unordered_map {
+public:
+	// parejas (clave, valor)
+	struct clave_valor {
+		const Clave clave;
+		Valor valor;
+		clave_valor(Clave const& c, Valor const& v = Valor()) : clave(c), valor(v) {};
+	};
+
+protected:
+	using umap_t = unordered_map<Clave, Valor, Hash, Pred>;
+
+	/*
+	Clase nodo que almacena internamente la pareja (clave, valor)
+	y un puntero al siguiente.
+	*/
+	struct ListNode;
+	using Link = ListNode *;
+	struct ListNode {
+		clave_valor cv;
+		Link sig;
+		ListNode(clave_valor const& e, Link s = nullptr) : cv(e), sig(s) {}
+	};
+
+	// vector de listas (el tamaño se ajustará a la carga)
+	std::vector<Link> array;
+
+	static const size_t TAM_INICIAL = 17; // tamaño inicial de la tabla
+	static const size_t MAX_CARGA = 75;   // máxima ocupación permitida
+
+										  // número de parejas <clave, valor>
+	size_t nelems;
+
+	// objeto función para hacer el hash de las claves
+	Hash hash;
+
+	// objeto función para comparar claves
+	Pred pred;
+
+public:
+
+	unordered_map(size_t n = TAM_INICIAL, Hash h = Hash(), Pred p = Pred()) :
+		array(n, nullptr), nelems(0), hash(h), pred(p) {}
+
+	unordered_map(umap_t const& other) {
+		copia(other);
+	}
+
+	umap_t & operator=(umap_t const& that) {
+		if (this != &that) {
+			libera();
+			copia(that);
+		}
+		return *this;
+	}
+
+	~unordered_map() {
+		libera();
+	};
+
+	void insert(clave_valor const& cv) {
+		if (muy_llena())
+			amplia();
+		size_t i = hash(cv.clave) % array.size();
+		Link ant, pos = array[i];
+		if (localizar(cv.clave, ant, pos)) {
+			pos->cv.valor = cv.valor;
+		}
+		else {
+			array[i] = new ListNode(cv, array[i]);
+			++nelems;
+		}
+	}
+
+	bool empty() const {
+		return nelems == 0;
+	}
+
+	size_t size() const {
+		return nelems;
+	}
+
+	bool contains(Clave const& c) const {
+		size_t i = hash(c) % array.size();
+		Link ant, pos = array[i];
+		return localizar(c, ant, pos);
+	}
+
+	Valor const& at(Clave const& c) const {
+		size_t i = hash(c) % array.size();
+		Link ant, pos = array[i];
+		if (localizar(c, ant, pos))
+			return pos->cv.valor;
+		else
+			throw std::out_of_range("La clave no se puede consultar");
+	}
+
+	// devuelve el valor asociado a la clave, si existe.
+	// Si no existe, crea un nuevo nodo (con valor por defecto) y
+	// lo devuelve.
+	Valor & operator[](Clave const& c) {
+		size_t i = hash(c) % array.size();
+		Link ant, pos = array[i];
+		if (localizar(c, ant, pos)) {
+			return pos->cv.valor;
+		}
+		else {
+			if (muy_llena()) {
+				amplia();
+				i = hash(c) % array.size();
+			}
+			array[i] = new ListNode(c, array[i]);
+			++nelems;
+			return array[i]->cv.valor;
+		}
+	}
+
+	void erase(Clave const& c) {
+		size_t i = hash(c) % array.size();
+		Link ant, pos = array[i];
+		if (localizar(c, ant, pos)) {
+			if (ant == nullptr)
+				array[i] = pos->sig;
+			else
+				ant->sig = pos->sig;
+			delete pos;
+			--nelems;
+		}
+	}
+
+protected:
+
+	void copia(umap_t const& other) {
+		array.resize(other.array.size());
+		for (size_t i = 0; i < array.size(); ++i) {
+			array[i] = nullptr;
+			Link act = other.array[i];
+			while (act != nullptr) {
+				array[i] = new ListNode(act->cv, array[i]);
+				act = act->sig;
+			}
+		}
+		nelems = other.nelems;
+		hash = other.hash;
+		pred = other.pred;
+	}
+
+	void libera() {
+		for (size_t i = 0; i < array.size(); ++i) {
+			// liberamos los nodos de la lista array[i]
+			Link act = array[i];
+			while (act != nullptr) {
+				Link a_borrar = act;
+				act = act->sig;
+				delete a_borrar;
+			}
+			array[i] = nullptr;
+		}
+	}
+
+	bool localizar(Clave const& c, Link & ant, Link & pos) const {
+		ant = nullptr;
+		while (pos != nullptr) {
+			if (pred(c, pos->cv.clave))
+				return true;
+			else {
+				ant = pos; pos = pos->sig;
+			}
+		}
+		return false;
+	}
+
+	bool muy_llena() const {
+		return 100.0 * nelems / array.size() > MAX_CARGA;
+	}
+
+	static size_t siguiente_primo(size_t a) {
+		bool primo = false;
+		while (!primo) {
+			++a;
+			primo = true;
+			for (size_t j = 2; j < a && primo; ++j) {
+				primo = a % j != 0;
+			}
+		}
+		return a;
+	}
+
+	void amplia() {
+		std::vector<Link> nuevo(siguiente_primo(array.size() * 2), nullptr);
+		for (size_t i = 0; i < array.size(); ++i) {
+			Link act = array[i];
+			while (act != nullptr) {
+				Link a_mover = act;
+				act = act->sig;
+				size_t i = hash(a_mover->cv.clave) % nuevo.size();
+				a_mover->sig = nuevo[i];
+				nuevo[i] = a_mover;
+			}
+		}
+		swap(array, nuevo);
+	}
+
+protected:
+	// iteradores que recorren los pares <clave, valor> de la tabla (no ordenados)
+	template <class Apuntado, class Tabla>
+	class Iterador {
+	public:
+		Apuntado & operator*() const {
+			if (act == nullptr)
+				throw std::out_of_range("No hay elemento a consultar");
+			return act->cv;
+		}
+
+		Apuntado * operator->() const {
+			return &operator*();
+		}
+
+		Iterador & operator++() {  // ++ prefijo
+			next();
+			return *this;
+		}
+
+		bool operator==(Iterador const& that) const {
+			return act == that.act;
+		}
+
+		bool operator!=(Iterador const& that) const {
+			return !(this->operator==(that));
+		}
+
+	protected:
+		friend class unordered_map;
+		Tabla * tabla;   // la tabla que se está recorriendo
+		Link act;        // nodo actual
+		size_t ind;      // índice de la lista actual
+
+						 // iterador al primer elemento o al último
+		Iterador(Tabla * t, bool first = true) : tabla(t) {
+			if (first) {
+				ind = 0;
+				while (ind < tabla->array.size() && tabla->array[ind] == nullptr) {
+					++ind;
+				}
+				act = (ind < tabla->array.size() ? tabla->array[ind] : nullptr);
+			}
+			else {
+				act = nullptr;
+				ind = tabla->array.size();
+			}
+		}
+
+		// iterador a una clave
+		Iterador(Tabla * t, Clave const& c) : tabla(t) {
+			ind = tabla->hash(c) % tabla->array.size();
+			Link ant;
+			act = tabla->array[ind];
+			if (!tabla->localizar(c, ant, act)) { // se devuelve iterador al final
+				act = nullptr; ind = tabla->array.size();
+			}
+		}
+
+		void next() {
+			if (act == nullptr)
+				throw std::out_of_range("El iterador no puede avanzar");
+			act = act->sig;
+			while (act == nullptr && ++ind < tabla->array.size()) {
+				act = tabla->array[ind];
+			}
+		}
+	};
+
+public:
+	// iterador que no permite modificar el elemento apuntado
+	using const_iterator = Iterador<clave_valor const, umap_t const>;
+
+	const_iterator cbegin() const {
+		return const_iterator(this);
+	}
+	const_iterator begin() const {
+		return cbegin();
+	}
+
+	const_iterator cend() const {
+		return const_iterator(this, false);
+	}
+	const_iterator end() const {
+		return cend();
+	}
+
+	const_iterator find(Clave const& c) const {
+		return const_iterator(this, c);
+	}
+
+	// iterador que sí permite modificar el elemento apuntado (su valor)
+	using iterator = Iterador<clave_valor, umap_t>;
+
+	iterator begin() {
+		return iterator(this);
+	}
+
+	iterator end() {
+		return iterator(this, false);
+	}
+
+	iterator find(Clave const& c) {
+		return iterator(this, c);
+	}
+
+}; 
+
+
+using pareja = std::string;
+using puntos = int;
+
+std::string elegirGanador(unordered_map<pareja, puntos> const& tabla) {
+	std::string ganadorN = "EMPATE";
+	int ganadorP = -1, numGanadores = 1;
+	bool primero = false;
+	for (auto const& p : tabla) {
+
+		if (p.valor > ganadorP) {
+			ganadorN = p.clave;
+			ganadorP = p.valor;
+			numGanadores = 1;
+		}
+		else if (p.valor == ganadorP)
+			numGanadores++;
+	}
+
+	if (numGanadores > 1)
+		ganadorN = "EMPATE";
+
+	return ganadorN;
+}
+
+void evaluarPartido(unordered_map<pareja, puntos> & tabla, int & rivales, std::string pareja1, int puntos1, std::string pareja2, int puntos2) {
+
+	if (!tabla.contains(pareja2)) {
+		tabla.insert({ pareja2, 0 });
+		rivales++;
+	}
+
+	if (!tabla.contains(pareja1)) {
+		tabla.insert({ pareja1, 0 });
+		rivales++;
+	}
+
+	if (puntos1 > puntos2) {
+		tabla[pareja1] += 2;
+		tabla[pareja2] += 1;
+	}
+	else {
+		tabla[pareja2] += 2;
+		tabla[pareja1] += 1;
+	}
+}
+
+// Resuelve un caso de prueba, leyendo de la entrada la
+// configuracio´n, y escribiendo la respuesta
+
+
+bool resuelveCaso() {
+	// leer los datos de la entrada
+	std::string linea;
+	std::cin >> linea;
+	if (linea == "FIN")
+		return false;
+
+	std::string pareja1, pareja2;
+	int puntos1, puntos2, numPartidos = 0, rivales = 0;
+	unordered_map<pareja, puntos> tabla;
+
+	std::cin >> pareja1;
+	while (pareja1 != "FIN") {
+		std::cin >> puntos1 >> pareja2 >> puntos2;
+		evaluarPartido(tabla, rivales, pareja1, puntos1, pareja2, puntos2);
+		numPartidos++;
+		std::cin >> pareja1;
+	}
+
+	std::string ganador = elegirGanador(tabla);
+	std::cout << ganador << ' ' << ((rivales * (rivales - 1)) - numPartidos) << '\n';
+	return true;
+
+}
+
+int main() {
+	// Para la entrada por fichero.
+	// Comentar para acepta el reto
+//#ifndef DOMJUDGE
+//	std::ifstream in("datos.txt");
+//	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+//#endif 
+
+
+	while (resuelveCaso())
+		;
+
+
+	// Para restablecer entrada. Comentar para acepta el reto
+//#ifndef DOMJUDGE // para dejar todo como estaba al principio
+//	std::cin.rdbuf(cinbuf);
+//	system("PAUSE");
+//#endif
+
+	return 0;
+}

@@ -1,0 +1,10 @@
+﻿  Source.cpp
+\\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\invertir una lista enlazada\invertir una lista enlazada\lista.h(41): warning C4018: '<': signed/unsigned mismatch
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\invertir una lista enlazada\invertir una lista enlazada\lista.h(39): note: while compiling class template member function 'void lista<int>::mostrar(void) const'
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\invertir una lista enlazada\invertir una lista enlazada\source.cpp(28): note: see reference to function template instantiation 'void lista<int>::mostrar(void) const' being compiled
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\invertir una lista enlazada\invertir una lista enlazada\source.cpp(21): note: see reference to class template instantiation 'lista<int>' being compiled
+\\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\invertir una lista enlazada\invertir una lista enlazada\lista.h(29): warning C4018: '<': signed/unsigned mismatch
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\invertir una lista enlazada\invertir una lista enlazada\lista.h(25): note: while compiling class template member function 'void lista<int>::invertir(void)'
+  \\psf\home\desktop\trabajos y más\universidad\2º e\eda 2º cuatri - 2º e\invertir una lista enlazada\invertir una lista enlazada\source.cpp(27): note: see reference to function template instantiation 'void lista<int>::invertir(void)' being compiled
+  Invertir una lista enlazada.vcxproj -> \\psf\Home\Desktop\Trabajos y más\Universidad\2º E\EDA 2º cuatri - 2º E\Invertir una lista enlazada\Debug\Invertir una lista enlazada.exe
+  Invertir una lista enlazada.vcxproj -> \\psf\Home\Desktop\Trabajos y más\Universidad\2º E\EDA 2º cuatri - 2º E\Invertir una lista enlazada\Debug\Invertir una lista enlazada.pdb (Partial PDB)
